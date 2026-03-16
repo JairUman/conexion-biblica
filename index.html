@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudio Biblico - Daniel y Profetas y Reyes</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0920;color:#f0eaff;font-family:system-ui,sans-serif;min-height:100vh}
+button{cursor:pointer;font-family:inherit;transition:opacity .15s,transform .1s}
+button:active{transform:scale(.97)}
+.page{display:none}.page.active{display:block}
+.hdr{background:linear-gradient(160deg,#1a0a3a,#0d0620);padding:2rem 1.5rem 1.75rem;text-align:center;border-bottom:1px solid #2d1f5e}
+.hdr-sub{font-size:.68rem;letter-spacing:3px;color:#9F7AEA;text-transform:uppercase;margin-bottom:.6rem}
+.hdr h1{font-size:clamp(1rem,3.2vw,1.65rem);font-weight:700;color:#fff;line-height:1.4;max-width:560px;margin:0 auto}
+.card{background:#17103a;border:1px solid #2d1f5e;border-radius:14px;padding:1.25rem 1.5rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.sb{background:#0d0920;border-radius:8px;padding:.75rem;border:1px solid #1e1440}
+.sl{font-size:.66rem;color:#9F7AEA;text-transform:uppercase;letter-spacing:.5px}
+.sv{font-weight:700;color:#fff;margin-top:2px}
+.btn-g{background:linear-gradient(135deg,#6d28d9,#1d4ed8);border:none;border-radius:10px;color:#fff;font-weight:700;padding:.9rem 1.5rem;font-size:1rem;width:100%}
+.btn-g:hover{opacity:.9}.btn-g:disabled{opacity:.5;cursor:not-allowed}
+.btn-o{background:transparent;border:1px solid #2d1f5e;border-radius:8px;color:#a89cc8;padding:.5rem 1rem;font-size:.85rem}
+.btn-o:hover{border-color:#6d28d9;color:#c4b5fd}
+.wrap{max-width:680px;margin:0 auto;padding:1.5rem 1.25rem}
+.lvl-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.lvl-card{border-radius:14px;padding:1.25rem;border:2px solid transparent;cursor:pointer;transition:all .2s;text-align:left}
+.lvl-card:hover{transform:translateY(-3px)}
+.lvl-1{background:linear-gradient(135deg,#1e1b4b,#312e81);border-color:#4338ca}
+.lvl-2{background:linear-gradient(135deg,#1e3a5f,#1e4d8c);border-color:#2563eb}
+.lvl-3{background:linear-gradient(135deg,#14532d,#166534);border-color:#16a34a}
+.lvl-4{background:linear-gradient(135deg,#7c2d12,#92400e);border-color:#d97706}
+.lvl-card .num{font-size:1.8rem;font-weight:900;margin-bottom:.25rem}
+.lvl-card .name{font-size:1rem;font-weight:700;color:#fff;margin-bottom:.25rem}
+.lvl-card .desc{font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.4}
+.lvl-card .diff{font-size:.7rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:.5rem;padding:2px 8px;border-radius:99px;display:inline-block;background:rgba(0,0,0,.25);color:rgba(255,255,255,.85)}
+.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;margin:1rem 0}
+.diff-btn{padding:.75rem .5rem;border-radius:10px;border:2px solid rgba(217,119,6,.4);background:rgba(217,119,6,.1);color:#fbbf24;font-weight:700;font-size:.9rem;text-align:center;cursor:pointer;transition:all .15s}
+.diff-btn:hover,.diff-btn.sel{background:rgba(217,119,6,.3);border-color:#d97706;color:#fff}
+.diff-btn .pct{font-size:1.3rem;font-weight:900;display:block}
+.diff-btn .sub{font-size:.7rem;opacity:.8}
+.pbar{height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,#7c3aed,#1d4ed8);border-radius:99px;transition:width .4s}
+.pinfo{display:flex;justify-content:space-between;font-size:.79rem;color:#a89cc8;font-weight:700;margin-bottom:5px}
+.qtag{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.7rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:.65rem}
+.qtag.mc{background:#1d4ed822;color:#60a5fa;border:1px solid #1d4ed855}
+.qtag.tf{background:#15803d22;color:#4ade80;border:1px solid #15803d55}
+.qsrc{font-size:.65rem;color:#7c3aed;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;font-weight:700}
+.qtxt{font-size:1rem;font-weight:700;line-height:1.55;color:#fff}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:1rem 0}
+.opt{display:flex;align-items:center;gap:9px;padding:12px 13px;border-radius:11px;border:2px solid transparent;color:#fff;font-size:.9rem;font-weight:700;text-align:left;line-height:1.3;transition:all .12s;cursor:pointer}
+.opt:disabled{cursor:default}
+.ltr{width:28px;height:28px;min-width:28px;border-radius:6px;background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.88rem}
+.oa{background:#7c3aed}.ob{background:#1d4ed8}.oc{background:#15803d}.od{background:#b91c1c}
+.ov{background:#15803d}.of{background:#b91c1c}
+.ok-b{border-color:#4ade80!important}
+.err-b{border-color:#f87171!important;opacity:.75!important}
+.dim{opacity:.28!important}
+.fb{padding:.8rem 1rem;border-radius:9px;font-weight:700;font-size:.87rem;line-height:1.55;margin-bottom:.85rem;display:none}
+.fb.show{display:block}
+.fb.ok{background:#14532d55;color:#4ade80;border:1px solid #16a34a}
+.fb.fail{background:#7f1d1d55;color:#fca5a5;border:1px solid #dc2626}
+.bnxt{display:none}.bnxt.show{display:block}
+.spct{font-size:5rem;font-weight:900;background:linear-gradient(135deg,#c084fc,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.loading-overlay{position:fixed;inset:0;background:#0d0920;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999}
+.loading-overlay.hidden{display:none}
+.big-spin{width:48px;height:48px;border:3px solid rgba(109,40,217,.3);border-top-color:#7c3aed;border-radius:50%;animation:sp .8s linear infinite;margin-bottom:1rem}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:480px){.opts,.g2,.lvl-grid,.diff-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="loading" class="loading-overlay hidden">
+  <div class="big-spin"></div>
+  <div style="color:#c4b5fd;font-weight:700;font-size:1rem" id="loading-msg">Generando preguntas...</div>
+  <div style="color:#a89cc8;font-size:.82rem;margin-top:.4rem">Esto puede tardar 15-20 segundos</div>
+</div>
+
+<!-- SELECCION DE NIVEL -->
+<div id="p-pub" class="page active">
+  <div class="hdr">
+    <div class="hdr-sub">Estudio Biblico Interactivo</div>
+    <h1>He programado esta pagina para mejorar su rendimiento en el estudio biblico.</h1>
+    <div style="margin-top:.75rem;display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center">
+      <span style="background:rgba(109,40,217,.2);border:1px solid rgba(109,40,217,.4);border-radius:99px;padding:3px 12px;font-size:.74rem;color:#c4b5fd">Daniel cap. 1-12 RVR1995</span>
+      <span style="background:rgba(109,40,217,.2);border:1px solid rgba(109,40,217,.4);border-radius:99px;padding:3px 12px;font-size:.74rem;color:#c4b5fd">Profetas y Reyes cap. 41 y 42</span>
+      <span style="background:rgba(217,119,6,.2);border:1px solid rgba(217,119,6,.4);border-radius:99px;padding:3px 12px;font-size:.74rem;color:#fbbf24">Todos los niveles son DIFICILES</span>
+    </div>
+  </div>
+  <div class="wrap">
+    <p style="color:#a89cc8;line-height:1.7;margin-bottom:1.5rem;font-size:.93rem;text-align:center">
+      Selecciona el nivel que deseas estudiar. Cada nivel es desafiante y requiere conocimiento profundo del texto.
+    </p>
+    <div class="lvl-grid">
+      <div class="lvl-card lvl-1" onclick="selectLevel(1)">
+        <div class="num">01</div>
+        <div class="name">Solo Daniel</div>
+        <div class="desc">Preguntas del libro de Daniel cap. 1-12 (RVR1995). Nombres, fechas, versiculos exactos, detalles precisos.</div>
+        <div class="diff">Dificil</div>
+      </div>
+      <div class="lvl-card lvl-2" onclick="selectLevel(2)">
+        <div class="num">02</div>
+        <div class="name">Solo PYR</div>
+        <div class="desc">Preguntas exclusivas de Profetas y Reyes cap. 41 y 42. Lo que Ellen White agrega al relato biblico.</div>
+        <div class="diff">Dificil</div>
+      </div>
+      <div class="lvl-card lvl-3" onclick="selectLevel(3)">
+        <div class="num">03</div>
+        <div class="name">Daniel + PYR</div>
+        <div class="desc">Combina ambas fuentes. Preguntas cruzadas que requieren dominar los dos textos a la vez.</div>
+        <div class="diff">Muy Dificil</div>
+      </div>
+      <div class="lvl-card lvl-4" onclick="selectLevel(4)">
+        <div class="num">04</div>
+        <div class="name">Desafio Total</div>
+        <div class="desc">La IA genera preguntas nuevas con el porcentaje de dificultad que tu elijas. Cada sesion es unica.</div>
+        <div class="diff">Tu decides</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NIVEL 4: SELECTOR DE DIFICULTAD -->
+<div id="p-diff" class="page">
+  <div class="hdr">
+    <div class="hdr-sub">Nivel 4 - Desafio Total</div>
+    <h1>Cuanta dificultad quieres?</h1>
+  </div>
+  <div class="wrap">
+    <p style="color:#a89cc8;line-height:1.7;margin-bottom:1.25rem;font-size:.93rem;text-align:center">
+      La IA generara <strong style="color:#fbbf24">45 preguntas nuevas</strong> sobre Daniel y PYR cap. 41-42 con la dificultad que elijas.
+    </p>
+    <div class="diff-grid">
+      <div class="diff-btn" onclick="pickDiff(25,this)"><span class="pct">+25%</span><span class="sub">Elevado</span></div>
+      <div class="diff-btn" onclick="pickDiff(35,this)"><span class="pct">+35%</span><span class="sub">Intenso</span></div>
+      <div class="diff-btn" onclick="pickDiff(50,this)"><span class="pct">+50%</span><span class="sub">Avanzado</span></div>
+      <div class="diff-btn" onclick="pickDiff(65,this)"><span class="pct">+65%</span><span class="sub">Experto</span></div>
+      <div class="diff-btn" onclick="pickDiff(80,this)"><span class="pct">+80%</span><span class="sub">Elite</span></div>
+      <div class="diff-btn" onclick="pickDiff(100,this)"><span class="pct">+100%</span><span class="sub">Maestro</span></div>
+    </div>
+    <div id="diff-info" style="display:none;text-align:center;margin-bottom:1rem;padding:.75rem 1rem;background:rgba(217,119,6,.1);border:1px solid rgba(217,119,6,.3);border-radius:10px">
+      <div style="color:#fbbf24;font-weight:700;font-size:1rem" id="diff-label"></div>
+      <div style="color:#a89cc8;font-size:.82rem;margin-top:.25rem" id="diff-desc"></div>
+    </div>
+    <button class="btn-g" id="btn-start-4" onclick="startLevel4()" style="display:none;margin-bottom:.75rem">Generar y Comenzar</button>
+    <button class="btn-o" onclick="go('p-pub')" style="width:100%">Volver a niveles</button>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="p-quiz" class="page">
+  <div style="max-width:680px;margin:0 auto;padding:1.1rem 1.25rem 3rem">
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;flex-wrap:wrap">
+      <button onclick="go('p-pub')" style="background:none;border:none;color:#a89cc8;font-size:.8rem;cursor:pointer">Niveles</button>
+      <span style="color:#3b2f6a">|</span>
+      <span id="q-lvl-tag" style="font-size:.72rem;font-weight:700;color:#d97706;text-transform:uppercase;letter-spacing:.5px"></span>
+    </div>
+    <div class="pinfo">
+      <span id="q-num">Pregunta 1 de 45</span>
+      <span id="q-sc">0 correctas</span>
+    </div>
+    <div class="pbar"><div class="pfill" id="pfill" style="width:1%"></div></div>
+    <br>
+    <span class="qtag mc" id="qtag">Opcion multiple</span>
+    <div class="card" style="margin-bottom:.85rem">
+      <div class="qsrc" id="qsrc"></div>
+      <div class="qtxt" id="qtxt"></div>
+    </div>
+    <div class="opts" id="opts"></div>
+    <div class="fb" id="fb"></div>
+    <button class="btn-g bnxt" id="bnxt" onclick="nextQ()">Siguiente</button>
+  </div>
+</div>
+
+<!-- RESULTADOS -->
+<div id="p-res" class="page">
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem">
+    <div style="text-align:center;max-width:420px">
+      <div id="r-trophy" style="font-size:3.5rem"></div>
+      <div class="spct" id="r-pct"></div>
+      <div style="color:#a89cc8;font-size:.9rem;margin-bottom:.3rem">puntaje final</div>
+      <div id="r-msg" style="font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.4rem"></div>
+      <div id="r-lvl" style="font-size:.8rem;color:#a89cc8;margin-bottom:1.5rem"></div>
+      <div style="display:flex;justify-content:center;gap:2rem;margin-bottom:2rem">
+        <div><div style="font-size:2rem;font-weight:900;color:#4ade80" id="r-ok">0</div><div style="color:#a89cc8;font-size:.8rem">correctas</div></div>
+        <div><div style="font-size:2rem;font-weight:900;color:#f87171" id="r-bad">0</div><div style="color:#a89cc8;font-size:.8rem">incorrectas</div></div>
+      </div>
+      <div style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn-g" style="width:auto;padding:.75rem 1.5rem" id="r-replay">Repetir nivel</button>
+        <button class="btn-o" onclick="go('p-pub')">Elegir nivel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════
+// BANCO DE PREGUNTAS BASE
+// ═══════════════════════════
+
+// Función para mezclar opciones y ajustar índice de respuesta correcta
+function mixOpts(opts, ans) {
+  // Crea pares [opcion, esCorrecta]
+  var paired = opts.map(function(o, i) { return {t: o, c: i === ans}; });
+  // Fisher-Yates
+  for (var i = paired.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = paired[i]; paired[i] = paired[j]; paired[j] = tmp;
+  }
+  var newAns = 0;
+  for (var k = 0; k < paired.length; k++) {
+    if (paired[k].c) { newAns = k; break; }
+  }
+  return { o: paired.map(function(p){return p.t;}), a: newAns };
+}
+
+// Prepara un banco mezclando las opciones de cada pregunta
+function prepBank(arr) {
+  return arr.map(function(q) {
+    if (q.t === 'tf') return q; // V/F no se mezcla
+    var m = mixOpts(q.o, q.a);
+    return {s:q.s, t:q.t, q:q.q, o:m.o, a:m.a, e:q.e};
+  });
+}
+
+var RAW_Q1 = [
+{s:"Daniel 1:1",t:"mc",q:"En que anno exacto del reinado de Joacim vino Nabucodonosor a sitiar Jerusalen?",o:["Primer anno","Segundo anno","Tercer anno","Cuarto anno"],a:2,e:"Daniel 1:1 — En el tercer anno del reinado de Joacim rey de Juda."},
+{s:"Daniel 1:3",t:"mc",q:"Como se llamaba el jefe de los eunucos a quien el rey encargo seleccionar jovenes hebreos?",o:["Melsar","Arioc","Nabu-zar-adan","Aspenaz"],a:3,e:"Daniel 1:3 — dijo el rey a Aspenaz, jefe de sus eunucos."},
+{s:"Daniel 1:11",t:"mc",q:"Como se llamaba el mayordomo puesto directamente sobre Daniel y sus tres companeros (distinto del jefe de eunucos)?",o:["Aspenaz","Arioc","Gabael","Melsar"],a:3,e:"Daniel 1:11 — dijo Daniel a Melsar, a quien el jefe de los eunucos habia puesto sobre Daniel."},
+{s:"Daniel 1:5",t:"mc",q:"Cuantos annos duro el periodo de instruccion en letras y lengua caldea para los jovenes hebreos?",o:["Dos annos","Tres annos","Cuatro annos","Siete annos"],a:1,e:"Daniel 1:5 — los educara durante tres annos."},
+{s:"Daniel 1:7",t:"mc",q:"Cual era el nombre hebreo de quien recibio el nombre babilonico Sadrac?",o:["Misael","Azarias","Daniel","Ananias"],a:3,e:"Daniel 1:7 — a Ananias, Sadrac."},
+{s:"Daniel 1:7",t:"mc",q:"Cual era el nombre hebreo de quien recibio el nombre babilonico Mesac?",o:["Ananias","Azarias","Daniel","Misael"],a:3,e:"Daniel 1:7 — a Misael, Mesac."},
+{s:"Daniel 1:7",t:"mc",q:"Cual era el nombre hebreo de quien recibio el nombre babilonico Abed-nego?",o:["Ananias","Misael","Daniel","Azarias"],a:3,e:"Daniel 1:7 — a Azarias, Abed-nego."},
+{s:"Daniel 1:14",t:"mc",q:"Cuantos dias duro exactamente la prueba de legumbres y agua que pidio Daniel?",o:["Siete dias","Tres dias","Catorce dias","Diez dias"],a:3,e:"Daniel 1:14 — probo con ellos durante diez dias."},
+{s:"Daniel 1:20",t:"mc",q:"Cuanto mejores que todos los magos y astrologos del reino resultaron ser los cuatro hebreos?",o:["Dos veces","Cinco veces","Veinte veces","Diez veces"],a:3,e:"Daniel 1:20 — los hallo diez veces mejores."},
+{s:"Daniel 1:21",t:"mc",q:"Hasta el anno primero de que rey continuo Daniel en Babilonia segun el final del capitulo 1?",o:["Dario el Medo","Belsasar","Artajerjes","Ciro"],a:3,e:"Daniel 1:21 — Asi continuo Daniel hasta el anno primero del rey Ciro."},
+{s:"Daniel 2:1",t:"mc",q:"En que anno del reinado de Nabucodonosor tuvo lugar el sueno de la gran imagen?",o:["Anno primero","Anno tercero","Anno segundo","Anno quinto"],a:2,e:"Daniel 2:1 — En el segundo anno del reinado de Nabucodonosor."},
+{s:"Daniel 2:14",t:"mc",q:"Como se llamaba el capitan de la guardia real enviado a matar a los sabios de Babilonia?",o:["Aspenaz","Melsar","Nabu-zar-adan","Arioc"],a:3,e:"Daniel 2:14 — Daniel hablo con Arioc, capitan de la guardia del rey."},
+{s:"Daniel 2:32",t:"mc",q:"De que material eran el pecho y los brazos de la imagen del sueno de Nabucodonosor?",o:["Oro","Bronce","Hierro","Plata"],a:3,e:"Daniel 2:32 — Su pecho y sus brazos, de plata."},
+{s:"Daniel 2:33",t:"mc",q:"De que eran exactamente los pies de la imagen del sueno, la parte mas debil?",o:["Solo hierro","Solo barro","Bronce y barro","Hierro y barro cocido"],a:3,e:"Daniel 2:33 — sus pies, en parte de hierro y en parte de barro cocido."},
+{s:"Daniel 2:34",t:"tf",q:"La piedra que destruyo la imagen del sueno fue cortada de una montana por manos humanas.",o:["Verdadero","Falso"],a:1,e:"Daniel 2:34 — fue cortada una piedra, NO con mano. Sin intervencion humana."},
+{s:"Daniel 2:47",t:"mc",q:"Que titulo especifico le dio Nabucodonosor al Dios de Daniel tras la interpretacion del sueno?",o:["Dios del universo","Dios unico y verdadero","Dios de los ejercitos","Dios de dioses y descubridor de misterios"],a:3,e:"Daniel 2:47 — el Dios vuestro es Dios de dioses...y descubridor de los misterios."},
+{s:"Daniel 3:1",t:"mc",q:"Cuantos codos de altura tenia exactamente la imagen de oro que Nabucodonosor levanto en Dura?",o:["30 codos","45 codos","100 codos","60 codos"],a:3,e:"Daniel 3:1 — una imagen de oro, de sesenta codos de altura."},
+{s:"Daniel 3:1",t:"mc",q:"Cuantos codos de ancho tenia exactamente la imagen de oro de Nabucodonosor?",o:["3 codos","9 codos","12 codos","6 codos"],a:3,e:"Daniel 3:1 — y seis codos de anchura."},
+{s:"Daniel 3:19",t:"mc",q:"Cuantas veces mas de lo normal mando Nabucodonosor calentar el horno de fuego?",o:["Tres veces","Cinco veces","Diez veces","Siete veces"],a:3,e:"Daniel 3:19 — ordeno que calentasen el horno siete veces mas de lo acostumbrado."},
+{s:"Daniel 3:21",t:"tf",q:"Los tres hebreos fueron echados al horno desnudos para que el fuego los quemara mas rapidamente.",o:["Verdadero","Falso"],a:1,e:"Daniel 3:21 — fueron atados CON sus mantos, sus calzas, turbantes y vestidos. Con toda la ropa puesta."},
+{s:"Daniel 3:22",t:"mc",q:"Que le ocurrio exactamente a los soldados que arrojaron a los tres hebreos al horno?",o:["Huyeron despavoridos","Quedaron ciegos","El rey los perdono","La llama del fuego los mato"],a:3,e:"Daniel 3:22 — la llama del fuego mato a aquellos que habian alzado a Sadrac, Mesac y Abed-nego."},
+{s:"Daniel 3:25",t:"mc",q:"Cuantos personajes vio Nabucodonosor caminando sueltos dentro del horno ardiendo?",o:["Dos","Tres","Cinco","Cuatro"],a:3,e:"Daniel 3:25 — yo veo cuatro varones sueltos, que se pasean en medio del fuego."},
+{s:"Daniel 3:25",t:"mc",q:"Con que palabras exactas describio Nabucodonosor el aspecto del cuarto personaje en el horno?",o:["Como un angel de luz","Como el Dios de Israel","Como un ser celestial","Semejante a hijo de los dioses"],a:3,e:"Daniel 3:25 — el parecer del cuarto es semejante a hijo de los dioses."},
+{s:"Daniel 3:27",t:"mc",q:"Que evidencia fisica mostraron los tres hebreos al salir del horno?",o:["Leves quemaduras en manos","El cabello chamuscado","Ropas con olor a humo","Ni cabello, ni ropas alteradas, ni olor a fuego en absoluto"],a:3,e:"Daniel 3:27 — ni cabello fue quemado, ni sus ropas se mudaron, ni olor de fuego habia pasado por ellos."},
+{s:"Daniel 4:16",t:"mc",q:"Cuantos tiempos debian pasar sobre Nabucodonosor hasta que reconociera el dominio de Dios?",o:["Tres tiempos","Cinco tiempos","Doce tiempos","Siete tiempos"],a:3,e:"Daniel 4:16 — siete tiempos pasaran sobre el."},
+{s:"Daniel 4:30",t:"mc",q:"Cuales fueron las palabras exactas de orgullo que pronuncio Nabucodonosor justo antes de perder la razon?",o:["Soy el mas grande entre los reyes","Mis dioses me han concedido todo esto","Ningun dios puede destronarme","No es esta la gran Babilonia que yo edifique para casa del reino?"],a:3,e:"Daniel 4:30 — No es esta la gran Babilonia, que yo edifique para casa del reino, con la fuerza de mi poder?"},
+{s:"Daniel 4:33",t:"tf",q:"Durante los siete tiempos de locura, el pelo de Nabucodonosor crecio como de aguila y sus unnas como de aves.",o:["Verdadero","Falso"],a:0,e:"Daniel 4:33 — su pelo crecio como de aguila, y sus unnas como de aves."},
+{s:"Daniel 5:10",t:"mc",q:"Quien entro al salon del banquete y aconsejo a Belsasar que llamara a Daniel?",o:["Arioc el capitan","La esposa joven del rey","La hija mayor del rey","La reina madre"],a:3,e:"Daniel 5:10 — La reina, por las palabras del rey y de sus grandes, entro a la sala del banquete."},
+{s:"Daniel 5:25",t:"mc",q:"Cuales eran exactamente las cuatro palabras escritas en la pared del palacio de Belsasar?",o:["Rey, Pueblo, Tierra, Juicio","Oro, Plata, Bronce, Hierro","Fuego, Espada, Hambre, Pestilencia","Mene, Mene, Tekel, Uparsin"],a:3,e:"Daniel 5:25 — Mene, Mene, Tekel, Uparsin."},
+{s:"Daniel 5:27",t:"mc",q:"Cual era el significado exacto de la palabra Tekel segun la interpretacion de Daniel?",o:["Tu reino ha sido dividido","Contado dos veces","Tu reino entregado a medos y persas","Pesado has sido en balanzas y fuiste hallado falto"],a:3,e:"Daniel 5:27 — Pesado has sido en balanzas, y fuiste hallado falto."},
+{s:"Daniel 5:29",t:"mc",q:"Cual fue el cargo exacto que le otorgo Belsasar a Daniel como recompensa?",o:["Primer ministro del reino","Gobernador de Babilonia","Segundo gobernante","Tercer senor del reino"],a:3,e:"Daniel 5:29 — proclamaron que el era el tercer senor del reino."},
+{s:"Daniel 5:30",t:"mc",q:"Cuando fue muerto Belsasar despues de la interpretacion de Daniel?",o:["Al dia siguiente","Tres dias despues","Una semana despues","En aquella misma noche"],a:3,e:"Daniel 5:30 — En aquella misma noche fue muerto Belsasar rey de los caldeos."},
+{s:"Daniel 6:1",t:"mc",q:"Cuantos satrapas exactamente constituyo Dario el Medo sobre el reino?",o:["Setenta","Cien","Doscientos","Ciento veinte"],a:3,e:"Daniel 6:1 — plugo a Dario constituir sobre el reino ciento veinte satrapas."},
+{s:"Daniel 6:7",t:"mc",q:"Cuantos dias estipulaba el decreto de Dario durante los cuales nadie podia hacer peticion excepto al rey?",o:["Siete dias","Diez dias","Cuarenta dias","Treinta dias"],a:3,e:"Daniel 6:7 — en el espacio de treinta dias."},
+{s:"Daniel 6:10",t:"tf",q:"Al saber que el decreto habia sido firmado, Daniel cerro sus ventanas para orar sin que lo vieran.",o:["Verdadero","Falso"],a:1,e:"Daniel 6:10 — tenia sus ventanas ABIERTAS hacia Jerusalen. Las abrio, no las cerro."},
+{s:"Daniel 6:10",t:"mc",q:"Cuantas veces al dia y en que direccion exacta oraba Daniel segun Daniel 6:10?",o:["Una vez al dia hacia el oriente","Dos veces hacia el sur","Siete veces hacia el templo","Tres veces al dia hacia Jerusalen"],a:3,e:"Daniel 6:10 — se arrodillaba tres veces al dia...con las ventanas abiertas hacia Jerusalen."},
+{s:"Daniel 6:24",t:"mc",q:"Que les ocurrio exactamente a los acusadores de Daniel cuando Dario los arrojo al foso de los leones?",o:["Los leones los ignoraron","Los sometieron sin herirlos","Murieron al caer antes que llegaran los leones","Los leones quebraron todos sus huesos antes de llegar al suelo"],a:3,e:"Daniel 6:24 — los leones quebraron todos sus huesos, antes que llegasen al suelo del foso."},
+{s:"Daniel 7:1",t:"mc",q:"Durante el reinado de que rey tuvo Daniel la vision de las cuatro bestias del capitulo 7?",o:["Dario el Medo","Ciro el Persa","Nabucodonosor","Belsasar rey de Babilonia"],a:3,e:"Daniel 7:1 — En el primer anno de Belsasar rey de Babilonia."},
+{s:"Daniel 7:5",t:"mc",q:"La segunda bestia de Daniel 7 era como un oso. Que detalle especifico tenia en su boca?",o:["Siete cabezas como el dragon","Cuatro alas como un leopardo","Un cuerno pequeno que hablaba","Tres costillas entre sus dientes"],a:3,e:"Daniel 7:5 — semejante a un oso...y tenia en su boca tres costillas entre sus dientes."},
+{s:"Daniel 7:7",t:"mc",q:"Cuantos cuernos tenia la terrible cuarta bestia de la vision de Daniel 7?",o:["Siete","Ocho","Doce","Diez"],a:3,e:"Daniel 7:7 — tenia diez cuernos."},
+{s:"Daniel 8:1",t:"mc",q:"En que anno del reinado de Belsasar tuvo Daniel la vision del carnero y el macho cabrio?",o:["Anno primero","Anno segundo","Anno quinto","Anno tercero"],a:3,e:"Daniel 8:1 — En el anno tercero del reinado del rey Belsasar."},
+{s:"Daniel 8:2",t:"mc",q:"Junto a que rio estaba Daniel cuando tuvo la vision del carnero y el macho cabrio?",o:["El Eufrates","El Tigris","El Jordan","El rio Ulai junto a Susa"],a:3,e:"Daniel 8:2 — estaba junto al rio Ulai."},
+{s:"Daniel 8:16",t:"mc",q:"Que angel fue enviado para explicar a Daniel la vision del capitulo 8?",o:["Miguel","Rafael","Uriel","Gabriel"],a:3,e:"Daniel 8:16 — Gabriel, ensena a este la vision."},
+{s:"Daniel 9:2",t:"mc",q:"Las palabras de que profeta leyo Daniel para entender los setenta annos de desolacion de Jerusalen?",o:["Isaias","Ezequiel","Amos","Jeremias"],a:3,e:"Daniel 9:2 — el numero de los annos...habia comunicado Jehova al profeta Jeremias."},
+{s:"Daniel 10:4",t:"mc",q:"Junto a que rio estaba Daniel cuando recibio la gran vision del capitulo 10?",o:["El rio Ulai","El Eufrates","El Jordan","El gran rio Hidekel"],a:3,e:"Daniel 10:4 — estaba yo a la orilla del gran rio Hidekel."},
+{s:"Daniel 12:11",t:"mc",q:"Cuantos dias exactos desde la abolicion del continuo sacrificio hasta la abominacion desoladora segun Daniel 12:11?",o:["1260 dias","1335 dias","2300 dias","1290 dias"],a:3,e:"Daniel 12:11 — habra mil doscientos noventa dias."},
+{s:"Daniel 12:12",t:"mc",q:"Cuantos dias menciona Daniel 12:12 como bienaventurado quien espere y llegue a ellos?",o:["1260 dias","1290 dias","2300 dias","1335 dias"],a:3,e:"Daniel 12:12 — Bienaventurado el que espere, y llegue hasta mil trescientos treinta y cinco dias."},
+{s:"Daniel 12:13",t:"mc",q:"Con que promesa personal termina el libro de Daniel para el propio profeta?",o:["Iras y reinaras con los santos","Seras exaltado entre los profetas","Tu nombre estara en el libro de la vida","Tu andaras y reposarAs y te levantaras para recibir tu heredad al fin de los dias"],a:3,e:"Daniel 12:13 — tu andaras y reposarAs, y te levantaras para recibir tu heredad al fin de los dias."}
+];
+
+var RAW_Q2 = [
+{s:"PYR Cap.41",t:"mc",q:"En que capitulo de Daniel esta basado el capitulo 41 de Profetas y Reyes?",o:["Daniel 2","Daniel 4","Daniel 6","Daniel 3"],a:3,e:"PYR cap.41 — Este capitulo esta basado en Daniel 3."},
+{s:"PYR Cap.41",t:"mc",q:"Por que Nabucodonosor hizo la imagen TODA de oro en lugar de reproducir la imagen del sueno?",o:["Para honrar a los dioses de Babilonia","Para que representara un reino eterno indestructible sin descenso de materiales","Para celebrar la conquista de Egipto","Porque el oro era mas barato que los otros materiales"],a:1,e:"PYR cap.41 — En su imagen no habria descenso de valores desde la cabeza hasta los pies; toda de oro para simbolizar a Babilonia como reino eterno."},
+{s:"PYR Cap.41",t:"tf",q:"Segun PYR cap.41, la imagen que construyo Nabucodonosor era identica en materiales a la imagen del sueno.",o:["Verdadero","Falso"],a:1,e:"PYR cap.41 — fue aun mas lejos: la hizo toda de oro, sin el descenso de materiales del sueno original."},
+{s:"PYR Cap.41",t:"mc",q:"Que queria lograr Satan al usar la imagen de oro segun PYR cap.41?",o:["Destruir completamente el reino de Israel","Derrotar el proposito de Dios de hacer del cautivo Israel un medio de bendicion para las naciones paganas","Eliminar a Daniel de su cargo","Provocar una guerra entre Babilonia y Egipto"],a:1,e:"PYR cap.41 — Satan esperaba derrotar el proposito que Dios tenia de hacer de la presencia del cautivo Israel en Babilonia un medio de bendecir a todas las naciones paganas."},
+{s:"PYR Cap.41",t:"mc",q:"Que aprendieron los tres hebreos de la historia de sus padres respecto a desobedecer a Dios?",o:["Que Dios siempre intervenia antes del castigo","Que los reyes no podian hacerles dano eterno","Que la desobediencia resulta en deshonor, desastre y muerte","Que Dios tarde o temprano revertia toda situacion dificil"],a:2,e:"PYR cap.41 — De la historia de sus padres habian aprendido que la desobediencia a Dios resulta en deshonor, desastre y muerte."},
+{s:"PYR Cap.41",t:"mc",q:"Que versiculo exacto de Isaias cito Ellen White sobre la proteccion divina en el fuego en PYR cap.41?",o:["Isaias 40:31","Isaias 41:10","Isaias 53:5","Isaias 43:2"],a:3,e:"PYR cap.41 cita Isaias 43:2 — Cuando pasares por el fuego, no te queamaras, ni la llama ardera en ti."},
+{s:"PYR Cap.41",t:"mc",q:"Que sentimiento especifico motivo a los sabios caldeos a denunciar a los tres hebreos segun PYR cap.41?",o:["Lealtad al rey","Temor a Dios","Celos de los honores concedidos a los companeros de Daniel","Odio religioso hacia Israel"],a:2,e:"PYR cap.41 — Ciertos sabios, celosos de los honores que se habian concedido a los fieles companeros de Daniel, informaron al rey."},
+{s:"PYR Cap.41",t:"tf",q:"Segun PYR cap.41, el decreto de Nabucodonosor que castigaba a quien blasfemara contra el Dios hebreo fue completamente correcto y justo.",o:["Verdadero","Falso"],a:1,e:"PYR cap.41 — aunque la confesion publica fue correcta, al intentar obligar a sus subditos Nabucodonosor se excedia de su derecho como soberano temporal."},
+{s:"PYR Cap.41",t:"mc",q:"Que evento profetico futuro relaciona Ellen White directamente con la historia del horno de fuego en PYR cap.41?",o:["La destruccion de Babilonia la Grande","Un decreto universal que condenara a muerte a quienes guardan el sabado del cuarto mandamiento","La segunda venida de Cristo","El juicio investigador en el cielo"],a:1,e:"PYR cap.41 — La ira del hombre se despertara contra aquellos que santifican el sabado del cuarto mandamiento; al fin un decreto universal los denunciara como merecedores de muerte."},
+{s:"PYR Cap.41",t:"tf",q:"Segun PYR cap.41, Satanas sabia que la verdad usada para exaltar al yo se convierte en poder para el mal.",o:["Verdadero","Falso"],a:0,e:"PYR cap.41 — El enemigo sabia que la verdad sin mezcla de error es un gran poder para salvar; pero cuando se usa para exaltar al yo y favorecer los proyectos de los hombres, llega a ser un poder para el mal."},
+{s:"PYR Cap.41",t:"mc",q:"Como supo el rey Nabucodonosor reconocer al cuarto personaje en el horno como el Hijo de Dios segun PYR cap.41?",o:["Porque Dios se lo revelo en un sueno previo","Porque los sacerdotes caldeos le ensenaron sobre el Hijo de Dios","Porque los cautivos hebreos le habian hablado de Cristo el Redentor","Porque ya habia visto ese ser en una vision anterior"],a:2,e:"PYR cap.41 — los cautivos hebreos en su vida y caracter habian representado la verdad delante de el. Les habian hablado de Cristo, el Redentor que iba a venir."},
+{s:"PYR Cap.41",t:"mc",q:"Segun PYR cap.41, que fue lo que SI se quemo de los tres hebreos dentro del horno?",o:["Los extremos de sus ropas y el cabello","Solo el cabello","Solo las ligaduras con que habian sido atados","El polvo de sus ropas pero no la tela"],a:2,e:"PYR cap.41 — La presencia de su Salvador los habia guardado de todo dano, y solo se habian quemado sus ligaduras."},
+{s:"PYR Cap.41",t:"mc",q:"Segun PYR cap.41, que declaro Nabucodonosor al promulgar su decreto despues del milagro del horno?",o:["Que Israel seria libre de la cautividad","Que el Dios de Israel era el unico Dios","Que no hay dios que pueda librar como este Dios","Que mandaria destruir todos los idolos de Babilonia"],a:2,e:"PYR cap.41 — no hay dios que pueda librar como este."},
+{s:"PYR Cap.41",t:"mc",q:"Segun PYR cap.41, que le habia sucedido a Nabucodonosor con el temor de Dios despues de la interpretacion del sueno de Daniel?",o:["Se arrepintio completamente y destruyo sus idolos","Sintio por un tiempo su influencia pero su corazon no quedo limpio de ambicion","Nombro a Daniel como consejero principal","Dejo de perseguir a los hebreos por varios annos"],a:1,e:"PYR cap.41 — Nabucodonosor sintio por un tiempo la influencia del temor de Dios; pero su corazon no habia quedado limpio de ambicion mundanal."},
+{s:"PYR Cap.41",t:"mc",q:"Cuales son las palabras de Daniel 2:38 que segun PYR cap.41 habian causado una profunda impresion en la mente del rey?",o:["El sueno es verdadero y fiel su declaracion","El Dios vuestro es Dios de dioses","Tu eres aquella cabeza de oro","Y levantara el Dios del cielo un reino"],a:2,e:"PYR cap.41 — Las palabras: Tu eres aquella cabeza de oro (vers. 38), habian hecho una profunda impresion en la mente del gobernante."},
+{s:"PYR Cap.42",t:"mc",q:"En que capitulo de Daniel esta basado el capitulo 42 de Profetas y Reyes?",o:["Daniel 2","Daniel 3","Daniel 5","Daniel 4"],a:3,e:"PYR cap.42 — Este capitulo esta basado en Daniel 4."},
+{s:"PYR Cap.42",t:"mc",q:"Con que versiculo exacto de Ezequiel identifica PYR cap.42 el titulo rey de reyes dado a Nabucodonosor?",o:["Ezequiel 21:7","Ezequiel 28:7","Ezequiel 37:7","Ezequiel 26:7"],a:3,e:"PYR cap.42 — reconocido por la Inspiracion misma como rey de reyes (Ezequiel 26:7)."},
+{s:"PYR Cap.42",t:"mc",q:"Que dos naciones especificas conquisto Nabucodonosor segun PYR cap.42?",o:["Asiria y Persia","Grecia y Siria","Tiro y Egipto","Moab y Edom"],a:2,e:"PYR cap.42 — le fue dado a Nabucodonosor conquistar Tiro; Egipto tambien cayo presa de sus ejercitos."},
+{s:"PYR Cap.42",t:"tf",q:"Cuando Daniel escucho el sueno del arbol, sintio alivio porque el rey arrogante seria humillado.",o:["Verdadero","Falso"],a:1,e:"PYR cap.42 — Para Daniel el significado del sueno era claro, y le alarmo. Estuvo callando casi una hora, y sus pensamientos lo espantaban."},
+{s:"PYR Cap.42",t:"mc",q:"Que consejo especifico le dio Daniel a Nabucodonosor para evitar el castigo del sueno del arbol?",o:["Que derribara la imagen de oro","Que liberara a los cautivos hebreos","Que redimiera sus pecados con justicia y sus iniquidades con misericordias para con los pobres","Que ayunara cuarenta dias"],a:2,e:"PYR cap.42 — aprueba mi consejo, y redime tus pecados con justicia, y tus iniquidades con misericordias para con los pobres."},
+{s:"PYR Cap.42",t:"mc",q:"Cuanto tiempo exacto despues de recibir la advertencia cayo el juicio sobre Nabucodonosor segun PYR cap.42?",o:["Un mes despues","Seis meses despues","Tres annos despues","Un anno despues"],a:3,e:"PYR cap.42 — Un anno despues de haber recibido la advertencia."},
+{s:"PYR Cap.42",t:"mc",q:"Cual fue el ultimo acto de Nabucodonosor registrado en la historia sagrada segun PYR cap.42?",o:["La conquista de Egipto","El nombramiento de Daniel como primer ministro","La destruccion de la imagen de oro de Dura","La proclamacion publica reconociendo la misericordia, bondad y autoridad de Dios"],a:3,e:"PYR cap.42 — La proclamacion publica...fue el ultimo acto de su vida que registra la historia sagrada."},
+{s:"PYR Cap.42",t:"mc",q:"Cual es la leccion que Ellen White dice que TODOS los gobernantes necesitan aprender segun PYR cap.42?",o:["Que la fuerza militar es la base de todo reino","Que la sabiduria de los consejeros es indispensable","Que ningun reino humano puede durar","Que la verdadera grandeza consiste en ser verdaderamente buenos"],a:3,e:"PYR cap.42 — la leccion que necesitan aprender todos los gobernantes: que la verdadera grandeza consiste en ser verdaderamente buenos."},
+{s:"PYR Cap.42",t:"mc",q:"Como contrasto Ellen White en PYR cap.42 al Nabucodonosor antes y despues de su conversion?",o:["Antes constructor ambicioso, despues hombre pacifico","Antes ignorante de la Biblia, despues estudioso","Antes orgulloso monarca ahora humilde hijo de Dios; antes tirano ahora rey sabio y compasivo","Antes idolatra convencido, despues fundador de un templo a Dios"],a:2,e:"PYR cap.42 — El que fuera un orgulloso monarca habia llegado a ser humilde hijo de Dios; el gobernante tirano e intolerante, era un rey sabio y compasivo."},
+{s:"PYR Cap.42",t:"mc",q:"Que significaba para PYR cap.42 que en el sueno del arbol se dijera que la cepa de sus raices quedaria en la tierra?",o:["Que Babilonia no seria destruida","Que el arbol creceria de nuevo mas grande","Que el reino de Nabucodonosor se le devolveria cuando entendiera que el senorio es de Dios","Que Nabucodonosor moriria pero su hijo gobernaria"],a:2,e:"PYR cap.42 — lo que dijeron, que dejasen en la tierra la cepa de las raices, significa que tu reino se te quedara firme, luego que entiendas que el senorio es en los cielos."},
+{s:"PYR Cap.42",t:"mc",q:"De que materiales estaba hecha la atadura alrededor de la cepa del arbol del sueno de Daniel 4?",o:["Oro y plata","Madera y piedra","Hierro y metal","Bronce y cobre"],a:2,e:"PYR cap.42 / Daniel 4:15 — con atadura de hierro y de metal entre la hierba del campo."},
+{s:"PYR Cap.42",t:"mc",q:"Por que dijo Ellen White que Dios podia usar a Nabucodonosor a pesar de ser idolatra por nacimiento y educacion?",o:["Porque los caldeos adoraban el mismo Dios con otro nombre","Porque a pesar de ser idolatra tenia un sentido innato de la justicia y de lo recto","Porque habia prometido convertirse al judaismo","Porque sus esposas hebreas le habian ensenado el temor de Dios"],a:1,e:"PYR cap.42 — A pesar de ser idolatra por nacimiento y educacion...tenia un sentido innato de la justicia y de lo recto, y Dios podia usarle como instrumento."},
+{s:"PYR Cap.42",t:"mc",q:"Que versiculo de Ezequiel vincula PYR cap.42 con la ayuda que Dios dio a Nabucodonosor para conquistar naciones?",o:["Ezequiel 21:7","Ezequiel 26:7","Ezequiel 37:9","Ezequiel 28:7"],a:3,e:"PYR cap.42 cita Ezequiel 28:7 — los fuertes de las gentes."},
+{s:"PYR Cap.42",t:"mc",q:"Por que razon dijo Ellen White que el juicio de Dios sobre Nabucodonosor se demoro despues del sueno del arbol?",o:["Porque Daniel pidio clemencia","Porque el rey habia construido un altar a Dios","Porque Dios espero para darle oportunidad de arrepentirse, pero en cambio el rey alento su orgullo hasta perder fe en el sueno","Porque habia sido justo con los hebreos ese anno"],a:2,e:"PYR cap.42 — El juicio de Dios se demoro durante meses; pero en vez de ser inducido al arrepentimiento, el rey alento su orgullo hasta perder confianza en la interpretacion del sueno."},
+{s:"PYR Cap.42",t:"mc",q:"Segun PYR cap.42, en que actividades se ocupo Nabucodonosor durante los intervalos entre guerras y que le aumento el orgullo?",o:["En estudios astronomicos y adivinacion","En el fortalecimiento y embellecimiento de su capital Babilonia","En la escritura de himnos a sus dioses","En la organizacion de su sistema legal"],a:1,e:"PYR cap.42 — penso mucho en el fortalecimiento y embellecimiento de su capital, hasta que al fin la ciudad de Babilonia vino a ser la gloria principal de su reino."},
+{s:"PYR Cap.41",t:"mc",q:"Segun PYR cap.41, en que periodo profetico futuro obrara el Senor poderosamente en favor de sus seguidores como en los dias del horno?",o:["En el tiempo del gran diluvio final","En los dias del juicio investigador","En el periodo final de la historia de esta tierra","En los dias de la restauracion de Israel"],a:2,e:"PYR cap.41 — Como en los dias de Sadrac, Mesac y Abed-nego, en el periodo final de la historia de esta tierra, el Senor obrara poderosamente en favor de aquellos que se mantengan firmemente por lo recto."},
+{s:"PYR Cap.42",t:"mc",q:"Con que palabras especificas inicio Daniel su respuesta antes de interpretar el sueno del arbol segun PYR cap.42?",o:["Senor mio, oye ahora la vision","Tu eres el arbol que viste oh rey","Senor mio, el sueno sea para tus enemigos, y su declaracion para los que mal te quieren","Oh rey, vive para siempre, te dire la interpretacion"],a:2,e:"PYR cap.42 — Daniel contesto: Senor mio, el sueno sea para tus enemigos, y su declaracion para los que mal te quieren."},
+{s:"PYR Cap.42",t:"mc",q:"Como describio Ellen White el caracter de Daniel cuando el rey lo llamo para interpretar el sueno del arbol?",o:["Como un mago y adivino de fama","Como hombre estimado por su integridad, constancia y sabiduria sin rival","Como el lider de los profetas hebreos en el exilio","Como el gobernador de mayor confianza de Nabucodonosor"],a:1,e:"PYR cap.42 — el rey mando llamar a su siervo Daniel, hombre estimado por su integridad, constancia y sabiduria sin rival."},
+{s:"PYR Cap.41",t:"mc",q:"Que afirmo Ellen White sobre la verdad sin mezcla de error en PYR cap.41?",o:["Que la verdad pura siempre pierde ante el poder politico","Que la verdad sin error es un gran poder para salvar, pero usada para exaltar al yo se convierte en poder para el mal","Que la verdad necesita la tradicion para ser efectiva","Que la verdad pura solo la comprenden los sabios"],a:1,e:"PYR cap.41 — El enemigo sabia que la verdad sin mezcla de error es un gran poder para salvar; pero que cuando se usa para exaltar al yo, llega a ser un poder para el mal."},
+{s:"PYR Cap.41",t:"mc",q:"Segun PYR cap.41, que salvaron los grandes del reino gracias a la interpretacion de Daniel del sueno de la imagen?",o:["Sus riquezas y territorios","Su posicion y honores","Sus vidas de una muerte ignominiosa","Su fe en los dioses de Babilonia"],a:2,e:"PYR cap.41 — en relacion con esta interpretacion los grandes del reino habian sido salvados de una muerte ignominiosa."}
+];
+
+var RAW_Q3 = [
+{s:"Daniel 3:1 / PYR 41",t:"mc",q:"Tanto Daniel 3:1 como PYR cap.41 coinciden en las dimensiones de la imagen. Cuales eran?",o:["30 codos de alto y 3 de ancho","45 codos de alto y 6 de ancho","60 codos de alto y 6 de ancho","100 codos de alto y 9 de ancho"],a:2,e:"Daniel 3:1 y PYR cap.41 — sesenta codos de altura y seis codos de anchura."},
+{s:"Daniel 3 / PYR 41",t:"tf",q:"Tanto Daniel 3 como PYR cap.41 afirman que los tres hebreos fueron atados con sus ropas completas antes de ser echados al horno.",o:["Verdadero","Falso"],a:0,e:"Daniel 3:21 — fueron atados con sus mantos, calzas, turbantes y vestidos. PYR cap.41 confirma este hecho."},
+{s:"Daniel 4 / PYR 42",t:"mc",q:"PYR cap.42 cita Ezequiel 26:7 para llamar a Nabucodonosor rey de reyes. Que dice Daniel 2:37 sobre su poder?",o:["Daniel no menciona ese titulo","Daniel 2:37 lo llama rey de reyes diciendo que el Dios del cielo le ha dado reino, poder, fuerza y gloria","Daniel lo llama solo el primer rey","Daniel 4:22 dice que su grandeza llego hasta el cielo"],a:1,e:"Daniel 2:37 — Tu, oh rey, eres rey de reyes; porque el Dios del cielo te ha dado reino, poder, fuerza y gloria. PYR cap.42 complementa esto con Ezequiel 26:7."},
+{s:"Daniel 3:25 / PYR 41",t:"mc",q:"Nabucodonosor llamo al cuarto personaje semejante a hijo de los dioses (v.25). En el v.28 uso otra descripcion. Cual?",o:["El Hijo del Altisimo","El Angel del Senor que mora en el fuego","Su angel que libro a sus siervos que esperaron en el","El Espiritu del Dios viviente"],a:2,e:"Daniel 3:28 — Bendito el Dios de ellos que envio su angel, y libro sus siervos que esperaron en el."},
+{s:"Daniel 1:7 / PYR 41",t:"mc",q:"PYR cap.41 menciona a los tres hebreos por sus nombres babilonicos. Cual de estos pares nombre hebreo - babilonico es INCORRECTO?",o:["Ananias = Sadrac","Misael = Mesac","Azarias = Abed-nego","Daniel = Abed-nego"],a:3,e:"Daniel 1:7 — Los tres del horno son Ananias=Sadrac, Misael=Mesac, Azarias=Abed-nego. Beltsasar es el nombre babilonico de DANIEL, no Abed-nego."},
+{s:"Daniel 4:27 / PYR 42",t:"mc",q:"PYR cap.42 explica que Daniel aconsejo a Nabucodonosor redimir sus pecados. Que dice exactamente Daniel 4:27?",o:["Daniel 4:27 no da ningun consejo; solo interpreta","Daniel 4:27 dice: aprueba mi consejo y redime tus pecados con justicia y tus iniquidades con misericordias para con los pobres","Daniel 4:27 dice: arrepientete o seras destruido en siete dias","Daniel 4:27 dice: ofrezca sacrificios al Dios del cielo"],a:1,e:"Daniel 4:27 — Por tanto, oh rey, aprueba mi consejo, y redime tus pecados con justicia, y tus iniquidades con misericordias para con los pobres."},
+{s:"Daniel 2:44-45 / PYR 41",t:"mc",q:"PYR cap.41 cita Daniel 2:44-45 al inicio. Que afirma esa cita sobre el reino eterno de Dios?",o:["Que ese reino destruira solo a Babilonia","Que ese reino vendra despues del fin del mundo","Que levantara el Dios del cielo un reino que nunca jamas se corrompera, desmenuezara todos los reinos y permanecera para siempre","Que ese reino sera gobernado por el pueblo de Israel"],a:2,e:"PYR cap.41 cita Daniel 2:44-45 — levantara el Dios del cielo un reino que nunca jamas se corrompera...el cual desmenuzara y consumira todos estos reinos, y el permanecera para siempre."},
+{s:"Daniel 3:29 / PYR 41",t:"mc",q:"Nabucodonosor decreto en Daniel 3:29 que quien blasfemara contra el Dios hebreo fuera descuartizado. PYR cap.41 senala que este decreto era parcialmente incorrecto. Por que razon?",o:["Porque el castigo era demasiado leve","Porque solo los sacerdotes podian emitir decretos religiosos","Porque obligar a otros a hacer una confesion de fe era excederse como soberano temporal","Porque el decreto contradecia las leyes de Medo-Persia"],a:2,e:"PYR cap.41 — al intentar obligar a sus subditos a hacer una confesion de fe similar, Nabucodonosor se excedia de su derecho como soberano temporal. Nunca compele Dios a los hombres a obedecer."},
+{s:"Daniel 6:16 / Daniel 6:10",t:"mc",q:"Daniel oraba tres veces al dia hacia Jerusalen a pesar del decreto. Cuando Dario lo mando al foso, que le dijo el rey que revela la fe que el propio Dario tenia?",o:["Que Daniel habia violado la ley y debia morir","Que orara al Dios de los cielos para que lo liberara","El Dios tuyo, a quien tu continuamente sirves, el te librara","Que prometia liberar a todos los hebreos si Dios lo salvaba"],a:2,e:"Daniel 6:16 — El Dios tuyo, a quien tu continuamente sirves, el te librara."},
+{s:"Daniel 4:34 / PYR 42",t:"mc",q:"Daniel 4:34 registra que Nabucodonosor alzo sus ojos al cielo y su sentido le fue vuelto. PYR cap.42 describe el cambio en su caracter. Cuales son los DOS contrastes especificos que menciona Ellen White?",o:["Antes constructor ambicioso, despues hombre pacifico que vivia en el campo","Antes ignorante de la Biblia, despues estudioso de los profetas","Antes orgulloso monarca ahora humilde hijo de Dios; antes gobernante tirano ahora rey sabio y compasivo","Antes idolatra convencido, despues fundador del primer templo a Dios en Babilonia"],a:2,e:"PYR cap.42 — El que fuera una vez un orgulloso monarca habia llegado a ser humilde hijo de Dios; el gobernante tirano e intolerante, era un rey sabio y compasivo."},
+{s:"Daniel 3:17-18 / PYR 41",t:"mc",q:"Los tres hebreos declararon que Dios PODIA librarlos. Que declaracion adicional los hizo aun mas notables?",o:["Que el fuego no podia danarlos porque eran siervos del Dios viviente","Que preferian morir antes que deshonrar a su Dios","Que aunque Dios no los librara tampoco adorarian la imagen","Que Dios mandaria un angel para apagar el fuego"],a:2,e:"Daniel 3:18 y PYR cap.41 — Y si no, sepas oh rey, que tu dios no adoraremos, ni tampoco honraremos la estatua que has levantado. Su fe era incondicional."},
+{s:"Daniel 5:30-31 / Daniel 6:1",t:"mc",q:"Belsasar fue muerto y Dario de Media tomo el reino. Cuantos annos tenia Dario al tomar el reino segun Daniel 5:31?",o:["Treinta y cinco annos","Cuarenta y cinco annos","Cincuenta annos","Sesenta y dos annos"],a:3,e:"Daniel 5:31 — Y Dario de Media tomo el reino, siendo de sesenta y dos annos."},
+{s:"Daniel 4:16 / Daniel 4:33",t:"mc",q:"El sueno del arbol predijo siete tiempos sobre Nabucodonosor. Que elemento fisico especifico del cuerpo crecio de manera anormal durante ese periodo?",o:["Sus dientes se alargaron como colmillos","Sus ojos se tornaron rojizos","Su pelo crecio como de aguila y sus unnas como de aves","Sus manos se volvieron como garras de leon"],a:2,e:"Daniel 4:33 — hasta que su pelo crecio como de aguila, y sus unnas como de aves."},
+{s:"Daniel 10:2-3 / Daniel 10:13",t:"mc",q:"Daniel ayuno tres semanas antes de la vision del capitulo 10. Que explico el angel como causa de la demora en llegar?",o:["Que Daniel no habia orado con suficiente fe","Que el principe del reino de Persia se opuso al angel durante veintiun dias hasta que Miguel vino a ayudarlo","Que Gabriel estaba en el cielo presentando la oracion de Daniel","Que Dios queria que Daniel ayunara mas dias"],a:1,e:"Daniel 10:13 — el principe del reino de Persia se me opuso durante veintiun dias; pero Miguel, uno de los principales principes, vino para ayudarme."},
+{s:"Daniel 12:11 / Daniel 12:12",t:"mc",q:"Daniel 12:11 menciona 1290 dias y Daniel 12:12 menciona 1335 dias. Cuantos dias de diferencia hay entre ambos periodos?",o:["20 dias","30 dias","45 dias","75 dias"],a:2,e:"1335 menos 1290 = 45 dias de diferencia entre ambos periodos profeticos."},
+{s:"Daniel 2:34 / Daniel 2:45",t:"mc",q:"Daniel 2:34 describe la piedra cortada no con mano. Daniel 2:45 anade un detalle sobre DE DONDE fue cortada. Cual es ese detalle?",o:["Del fondo del mar","De una nube del cielo","De un monte, sin mano","De las ruinas de Babilonia"],a:2,e:"Daniel 2:45 — de la manera que viste que del monte fue cortada una piedra, no con manos."},
+{s:"Daniel 3:21 / PYR 41",t:"mc",q:"Daniel 3:21 dice que los hebreos fueron echados CON sus ropas. PYR cap.41 dice que algo SI se quemo dentro del horno. Que fue exactamente?",o:["Los extremos de sus ropas y el cabello","Solo el cabello por estar en la parte mas alta","Solo las ligaduras con que habian sido atados","El polvo de sus ropas pero no la tela"],a:2,e:"PYR cap.41 — La presencia de su Salvador los habia guardado de todo dano, y solo se habian quemado sus ligaduras."},
+{s:"Daniel 1:21 / Daniel 10:1",t:"mc",q:"Daniel 1:21 dice que Daniel continuo hasta el anno primero del rey Ciro. Daniel 10:1 fue escrito en el tercer anno de Ciro. Que nos indica esto?",o:["Que Daniel murio en el primer anno de Ciro","Que Daniel 1:21 indica hasta cuando duro su carrera oficial, no hasta cuando vivio","Que hay una contradiccion entre Daniel 1 y Daniel 10","Que el Daniel del capitulo 10 era una persona diferente"],a:1,e:"Daniel 1:21 habla de su continuidad en el servicio oficial; Daniel 10:1 muestra que vivio y recibio visiones mas alla del primer anno de Ciro."},
+{s:"Daniel 2:44 / Daniel 7:14",t:"mc",q:"Daniel 2:44 habla de un reino eterno de Dios. Daniel 7:14 describe ese mismo reino. Que elemento especifico menciona Daniel 7:14 que no aparece en Daniel 2:44?",o:["Que sera establecido en Jerusalen","Que todos los pueblos y naciones le serviran","Que comenzara despues de los 1335 dias","Que sera gobernado por las doce tribus de Israel"],a:1,e:"Daniel 7:14 — todos los pueblos, naciones y lenguas le serviran; su dominio es dominio eterno."},
+{s:"Daniel 9:1 / Daniel 10:1",t:"mc",q:"Daniel 9 fue escrito en el primer anno de Dario el Medo. En que anno de que rey tuvo Daniel la vision mas extensa del libro, la del capitulo 10?",o:["Primer anno de Dario el Medo","Segundo anno de Ciro el Persa","Tercer anno de Ciro rey de Persia","Primer anno de Artajerjes"],a:2,e:"Daniel 10:1 — En el anno tercero de Ciro rey de Persia fue revelada una palabra a Daniel."},
+{s:"Daniel 4:34 / Daniel 4:30",t:"mc",q:"Entre el orgullo de Nabucodonosor en Daniel 4:30 y su restauracion en Daniel 4:34, cuantos tiempos exactos pasaron?",o:["Un anno","Tres tiempos","Cinco annos","Siete tiempos"],a:3,e:"Daniel 4:16 — siete tiempos pasaran sobre el. Daniel 4:33-34 confirma el cumplimiento de los siete tiempos."},
+{s:"Daniel 6:10 / Daniel 9:20",t:"mc",q:"Daniel oraba tres veces al dia (Daniel 6:10). En su oracion del capitulo 9, que grupo adicional incluyo Daniel en su confesion?",o:["Solo a los lideres religiosos de Israel","Solo a los reyes de Juda","Solo a si mismo","A su pueblo Israel ademas de a el mismo"],a:3,e:"Daniel 9:20 — confesando mi pecado y el pecado de mi pueblo Israel."},
+{s:"Daniel 7:7 / Daniel 7:8",t:"mc",q:"La cuarta bestia de Daniel 7 tenia diez cuernos. Cuantos arranco el cuerno pequeno al establecerse?",o:["Uno","Dos","Cuatro","Tres"],a:3,e:"Daniel 7:8 — delante de el fueron arrancados tres cuernos de los primeros."},
+{s:"Daniel 8:1 / Daniel 7:1",t:"mc",q:"Daniel 7:1 fue en el primer anno de Belsasar. Daniel 8:1 fue en el tercer anno de Belsasar. Cuantos annos de diferencia hay entre ambas visiones?",o:["Son el mismo anno","Un anno de diferencia","Dos annos de diferencia","Cinco annos de diferencia"],a:2,e:"Daniel 7:1 = primer anno de Belsasar. Daniel 8:1 = tercer anno de Belsasar. Dos annos de diferencia."},
+{s:"Daniel 5:17 / Daniel 5:29",t:"mc",q:"Daniel rechazo los dones de Belsasar (5:17) pero el rey le dio honores de todos modos (5:29). Cuales fueron esos honores?",o:["Oro, plata y tierras","Titulo de consejero principal y una mansion","Vestidura de escarlata, collar de oro, y ser proclamado tercer senor del reino","La promesa de liberar a todos los hebreos"],a:2,e:"Daniel 5:29 — vistieron a Daniel de purpura, y pusieron en su cuello un collar de oro, y proclamaron que el era el tercer senor del reino."},
+{s:"PYR 41 / PYR 42",t:"mc",q:"PYR cap.41 esta basado en Daniel 3 y PYR cap.42 en Daniel 4. Que tienen en comun ambos capitulos en cuanto al personaje principal de la historia?",o:["Ambos hablan de Daniel como protagonista principal","Ambos hablan de los tres hebreos del horno","Ambos tienen a Nabucodonosor como el personaje central cuya soberbia y eventual reconocimiento de Dios es el eje de la historia","Ambos ocurren durante el reinado de Dario el Medo"],a:2,e:"PYR cap.41 y 42 — ambos tienen a Nabucodonosor como eje central: en cap.41 su orgullo con la imagen de oro y en cap.42 su orgullo con la ciudad de Babilonia, ambos culminando en un reconocimiento del poder de Dios."},
+{s:"Daniel 12:1 / Daniel 10:13",t:"mc",q:"Daniel 10:13 menciona a Miguel como uno de los principales principes. Daniel 12:1 le da un titulo diferente. Cual es ese titulo especifico?",o:["El principe de los principes","El angel del Senor","El gran principe que esta de parte de los hijos de tu pueblo","El guardian de los hijos de Israel"],a:2,e:"Daniel 12:1 — se levantara Miguel, el gran principe que esta de parte de los hijos de tu pueblo."},
+{s:"Daniel 3:17-18 / PYR 41",t:"tf",q:"Segun tanto Daniel 3:17-18 como PYR cap.41, los tres hebreos declararon que Dios LOS LIBRARIA con certeza absoluta, sin admitir la posibilidad de no ser librados.",o:["Verdadero","Falso"],a:1,e:"Daniel 3:17-18 y PYR cap.41 — dijeron que Dios PUEDE librarlos, pero que aunque no lo hiciera tampoco adorarian la imagen. Su fe era incondicional, no una garantia de liberacion fisica."},
+{s:"Daniel 2:32 / Daniel 7",t:"mc",q:"En el sueno de la imagen de Daniel 2, el segundo metal es la plata. En Daniel 7, cual bestia representa ese mismo segundo reino?",o:["El leon con alas de aguila","El oso que se alzaba de un lado","El leopardo con cuatro cabezas","La cuarta bestia terrible"],a:1,e:"Daniel 2:32 — el pecho y brazos de plata = segundo reino. Daniel 7:5 — el oso = segundo reino (Medo-Persia)."},
+{s:"Daniel 4:13 / PYR 42",t:"mc",q:"Daniel 4:13 describe al ser del sueno del arbol como un vigilante y santo. Que proposito declaro ese ser para el castigo?",o:["Que los vivientes conocieran que el Altisimo se ensenorea del reino de los hombres","Que Babilonia fuera destruida por su idolatria","Que Daniel gobernara en lugar de Nabucodonosor","Que el pueblo hebreo fuera liberado de la cautividad"],a:0,e:"Daniel 4:17 / PYR cap.42 — para que conozcan los vivientes que el Altisimo se ensenorea del reino de los hombres, y que a quien el quiere lo da."}
+];
+
+// Estado global
+var currentLevel = 0;
+var selectedDiff = 0;
+var QZ = {q:[], i:0, sc:0, wr:0, ans:false, lvlName:''};
+
+function shuf(a){
+  var b=a.slice();
+  for(var i=b.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=b[i];b[i]=b[j];b[j]=t;
+  }
+  return b;
+}
+
+function go(id){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function selectLevel(lvl){
+  currentLevel = lvl;
+  if(lvl === 4){
+    go('p-diff');
+  } else {
+    var rawPool = lvl===1 ? RAW_Q1 : lvl===2 ? RAW_Q2 : RAW_Q3;
+    var names = {1:'Nivel 1 - Solo Daniel', 2:'Nivel 2 - Solo PYR', 3:'Nivel 3 - Daniel + PYR'};
+    launchQuiz(prepBank(shuf(rawPool)), names[lvl]);
+  }
+}
+
+function launchQuiz(questions, lvlName){
+  QZ = {q: questions, i:0, sc:0, wr:0, ans:false, lvlName: lvlName||''};
+  renderQ();
+  go('p-quiz');
+}
+
+function pickDiff(pct, el){
+  selectedDiff = pct;
+  document.querySelectorAll('.diff-btn').forEach(function(b){b.classList.remove('sel');});
+  el.classList.add('sel');
+  var descs = {
+    25:'Versiculos exactos, nombres precisos y opciones similares para confundir.',
+    35:'Opciones muy similares basadas en datos reales del texto. Requiere estudio detallado.',
+    50:'Detalles de PYR cap.41-42 que van mas alla del texto biblico basico.',
+    65:'Preguntas cruzadas entre Daniel y PYR. Para estudiantes avanzados.',
+    80:'Contexto teologico profundo, motivaciones y lecciones de Ellen White.',
+    100:'El maximo. Solo para quienes dominan completamente ambos textos.'
+  };
+  document.getElementById('diff-info').style.display = 'block';
+  document.getElementById('diff-label').textContent = '+' + pct + '% de dificultad';
+  document.getElementById('diff-desc').textContent = descs[pct] || '';
+  document.getElementById('btn-start-4').style.display = 'block';
+}
+
+function startLevel4(){
+  if(!selectedDiff) return;
+  showLoading('Generando 45 preguntas con +' + selectedDiff + '% de dificultad...');
+
+  var pct = selectedDiff;
+  var desc;
+  if(pct <= 25) desc = 'ELEVADO (+25%): versiculos exactos de Daniel 1-12 y PYR cap.41-42, nombres de personajes secundarios (Aspenaz, Melsar, Arioc), numeros y fechas precisas, opciones muy similares para confundir.';
+  else if(pct <= 35) desc = 'INTENSO (+35%): opciones muy similares entre si basadas en datos reales del texto de ambas fuentes. El estudiante debe haber leido con atencion cada detalle.';
+  else if(pct <= 50) desc = 'AVANZADO (+50%): detalles especificos que Ellen White agrega en PYR cap.41 y 42 mas alla del texto biblico basico. Motivaciones espirituales, citas exactas de Isaias y Ezequiel, lecciones profeticas.';
+  else if(pct <= 65) desc = 'EXPERTO (+65%): preguntas cruzadas que requieren relacionar datos especificos de Daniel 1-12 con los detalles que agrega Ellen White en PYR cap.41 y 42 al mismo tiempo.';
+  else if(pct <= 80) desc = 'ELITE (+80%): contexto teologico profundo, significado profetico segun PYR, lecciones para el tiempo del fin, comparaciones entre diferentes capitulos de Daniel, detalles que solo aparecen en PYR.';
+  else desc = 'MAESTRO (+100%): el maximo nivel posible. Incluye detalles ultra-especificos que requieren haber leido con mucho cuidado cada parrafo de Daniel 1-12 y cada pagina de PYR cap.41 y 42.';
+
+  var sys = 'Eres un experto en el libro biblico de Daniel (Reina Valera 1995, capitulos 1 al 12) y en los capitulos 41 y 42 del libro Profetas y Reyes de Ellen G. White.\nEl capitulo 41 se llama El horno de fuego y esta basado en Daniel 3.\nEl capitulo 42 se llama La verdadera grandeza y esta basado en Daniel 4.\n\nGenera EXACTAMENTE 45 preguntas de quiz en formato JSON. Nivel de dificultad: ' + desc + '\n\nREGLAS OBLIGATORIAS:\n1. Solo usa informacion textual de Daniel 1-12 RVR1995 y PYR cap.41-42.\n2. Distribuye: 15 preguntas solo de Daniel, 15 solo de PYR cap.41-42, 15 que combinen ambas fuentes.\n3. Opciones incorrectas DEBEN ser datos reales del texto pero de otros versiculos o capitulos para crear confusion genuina. NUNCA inventes datos.\n4. 25 preguntas tipo mc con 4 opciones. 20 preguntas tipo tf con opciones exactamente ["Verdadero","Falso"].\n5. LA POSICION DE LA RESPUESTA CORRECTA (campo "a") DEBE VARIAR ENTRE 0, 1, 2 Y 3 DE FORMA EQUILIBRADA. No concentres las respuestas correctas en el indice 3. Distribuye 0, 1, 2, 3 aproximadamente igual.\n6. El campo "e" debe citar el versiculo o parrafo exacto que respalda la respuesta.\n7. TODAS las preguntas deben ser genuinamente dificiles y hacer pensar profundamente.\n\nResponde UNICAMENTE con JSON valido puro. SIN texto antes ni despues. SIN bloques de codigo markdown. Solo el array JSON directo.\nFormato exacto:\n[{"s":"Daniel 1:1","t":"mc","q":"texto de la pregunta","o":["opcion A","opcion B","opcion C","opcion D"],"a":1,"e":"referencia exacta del texto"},{"s":"PYR Cap.41","t":"tf","q":"afirmacion","o":["Verdadero","Falso"],"a":0,"e":"referencia"}]\nExactamente 45 objetos en el array.';
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 8000,
+      system: sys,
+      messages: [{role:'user', content:'Genera las 45 preguntas ahora. Solo el array JSON, nada mas.'}]
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    hideLoading();
+    if(d.error){
+      throw new Error('API error: ' + (d.error.message || JSON.stringify(d.error)));
+    }
+    var raw = (d.content || []).map(function(b){ return b.text || ''; }).join('');
+    var clean = raw.replace(/```json[\s\S]*?```|```[\s\S]*?```/g, function(m){
+      return m.replace(/```json\s*/,'').replace(/```\s*/,'');
+    }).trim();
+    var s = clean.indexOf('[');
+    var e = clean.lastIndexOf(']');
+    if(s === -1 || e === -1) throw new Error('No se encontro array JSON en la respuesta');
+    var parsed = JSON.parse(clean.slice(s, e+1));
+    if(!Array.isArray(parsed) || parsed.length < 5) throw new Error('Pocas preguntas generadas: ' + parsed.length);
+    // Mezclar opciones de las preguntas mc generadas por la IA
+    var ready = prepBank(shuf(parsed));
+    launchQuiz(ready, 'Nivel 4 - Desafio Total (+' + pct + '%)');
+  })
+  .catch(function(err){
+    hideLoading();
+    alert('No se pudieron generar las preguntas: ' + err.message + '\n\nVerifica tu conexion a internet e intenta de nuevo.');
+  });
+}
+
+function showLoading(msg){
+  document.getElementById('loading-msg').textContent = msg || 'Generando preguntas...';
+  document.getElementById('loading').classList.remove('hidden');
+}
+function hideLoading(){
+  document.getElementById('loading').classList.add('hidden');
+}
+
+// ════════════════════
+// QUIZ ENGINE
+// ════════════════════
+function renderQ(){
+  var cur = QZ.q[QZ.i];
+  var tot = QZ.q.length;
+  var tf = cur.t === 'tf';
+  document.getElementById('q-lvl-tag').textContent = QZ.lvlName || '';
+  document.getElementById('q-num').textContent = 'Pregunta ' + (QZ.i+1) + ' de ' + tot;
+  document.getElementById('q-sc').textContent = QZ.sc + ' correctas';
+  document.getElementById('pfill').style.width = (((QZ.i+1)/tot)*100) + '%';
+  var tag = document.getElementById('qtag');
+  tag.textContent = tf ? 'Verdadero o Falso' : 'Opcion multiple';
+  tag.className = 'qtag ' + (tf ? 'tf' : 'mc');
+  document.getElementById('qsrc').textContent = cur.s;
+  document.getElementById('qtxt').textContent = cur.q;
+  var oc = document.getElementById('opts');
+  oc.innerHTML = '';
+  var colors = tf ? ['ov','of'] : ['oa','ob','oc','od'];
+  var lets = tf ? ['V','F'] : ['A','B','C','D'];
+  cur.o.forEach(function(opt, i){
+    var btn = document.createElement('button');
+    btn.className = 'opt ' + colors[i];
+    btn.innerHTML = '<div class="ltr">' + lets[i] + '</div>' + opt;
+    btn.onclick = (function(x){ return function(){ pick(x); }; })(i);
+    oc.appendChild(btn);
+  });
+  document.getElementById('fb').className = 'fb';
+  document.getElementById('fb').textContent = '';
+  document.getElementById('bnxt').className = 'btn-g bnxt';
+  QZ.ans = false;
+}
+
+function pick(idx){
+  if(QZ.ans) return;
+  QZ.ans = true;
+  var cur = QZ.q[QZ.i];
+  var ok = idx === cur.a;
+  if(ok) QZ.sc++; else QZ.wr++;
+  var btns = document.getElementById('opts').querySelectorAll('.opt');
+  btns.forEach(function(b, i){
+    b.disabled = true;
+    if(i === cur.a) b.classList.add('ok-b');
+    else if(i === idx) b.classList.add('err-b');
+    else b.classList.add('dim');
+  });
+  var fb = document.getElementById('fb');
+  fb.className = 'fb show ' + (ok ? 'ok' : 'fail');
+  fb.textContent = (ok ? '\u2713 Correcto! \u2014 ' : '\u2717 Incorrecto. Respuesta: ' + cur.o[cur.a] + ' \u2014 ') + cur.e;
+  var nxt = document.getElementById('bnxt');
+  nxt.className = 'btn-g bnxt show';
+  nxt.textContent = QZ.i === QZ.q.length-1 ? 'Ver resultados' : 'Siguiente';
+}
+
+function nextQ(){
+  QZ.i++;
+  if(QZ.i >= QZ.q.length){ showRes(); } else { renderQ(); }
+}
+
+function showRes(){
+  var tot = QZ.q.length;
+  var pct = Math.round((QZ.sc / tot) * 100);
+  var tr, msg;
+  if(pct >= 90){ tr='\uD83C\uDFC6'; msg='Maestro! Conocimiento excepcional'; }
+  else if(pct >= 75){ tr='\uD83C\uDF1F'; msg='Excelente dominio de la Palabra!'; }
+  else if(pct >= 60){ tr='\uD83D\uDCD6'; msg='Buen intento! Sigue repasando los detalles'; }
+  else{ tr='\uD83D\uDCAA'; msg='Sigue estudiando, cada detalle cuenta'; }
+  document.getElementById('r-trophy').textContent = tr;
+  document.getElementById('r-pct').textContent = pct + '%';
+  document.getElementById('r-msg').textContent = msg;
+  document.getElementById('r-lvl').textContent = QZ.lvlName || '';
+  document.getElementById('r-ok').textContent = QZ.sc;
+  document.getElementById('r-bad').textContent = QZ.wr;
+  document.getElementById('r-replay').onclick = function(){
+    var rawPool = currentLevel===1 ? RAW_Q1 : currentLevel===2 ? RAW_Q2 : currentLevel===3 ? RAW_Q3 : QZ.q;
+    launchQuiz(prepBank(shuf(rawPool)), QZ.lvlName);
+  };
+  go('p-res');
+}
+</script>
+</body>
+</html>
